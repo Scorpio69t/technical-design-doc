@@ -40,6 +40,42 @@
 
 请选择一种安装位置，并保留整个目录。`references`、`assets` 和 `scripts` 都是 Skill 的组成部分。
 
+### 使用 [Skills CLI](https://github.com/vercel-labs/skills) 安装（推荐）
+
+交互式安装，并在提示中选择目标 Agent：
+
+```bash
+npx skills add Scorpio69t/technical-design-doc
+```
+
+以用户级方式安装到 Codex，并跳过交互确认：
+
+```bash
+npx skills add Scorpio69t/technical-design-doc -g -a codex --copy -y
+```
+
+安装到当前项目的 Codex：
+
+```bash
+npx skills add Scorpio69t/technical-design-doc -a codex --copy -y
+```
+
+可以把 `codex` 换成 `claude-code`、`cursor` 等受支持的 Agent，也可以在 `-a` 后指定多个 Agent。安装前查看仓库中可用的 Skill：
+
+```bash
+npx skills add Scorpio69t/technical-design-doc --list
+```
+
+如果 npm 需要经过本机 HTTP 代理，可先在当前 PowerShell 会话中设置代理。例如：
+
+```powershell
+$env:HTTP_PROXY = "http://127.0.0.1:7897"
+$env:HTTPS_PROXY = "http://127.0.0.1:7897"
+npx skills add Scorpio69t/technical-design-doc -g -a codex --copy -y
+```
+
+以上命令已使用 Skills CLI 1.6.0 实测。`--copy` 会生成独立副本，避免安装结果依赖 Agent 目录中的符号链接。
+
 ### Codex 及兼容客户端
 
 用户级安装：

@@ -34,11 +34,24 @@ AI_PHRASES = {
         r"you can consider",
         r"we can consider",
         r"next we (?:need|should|will)",
+        r"基于(?:以上|上述)(?:内容|设计|分析)?",
+        r"需要注意的是",
+        r"在实际实施过程中",
+        r"根据实际情况",
+        r"可以进一步优化",
+        r"(?:智能体|Agent)(?:需要|应该|将)",
+        r"下一步(?:需要|应该|将)",
+        r"可以考虑",
+        r"提供[^\n，。]{0,20}有力支撑",
+        r"奠定[^\n，。]{0,20}(?:坚实|扎实)基础",
     ],
     "AI002": [
         r"highly (?:available|scalable|reliable|efficient|flexible)",
         r"efficient, stable and reliable",
         r"unified, efficient",
+        r"全面赋能",
+        r"灵活扩展",
+        r"统一、高效、稳定(?:、|和)可靠",
     ],
 }
 
@@ -49,6 +62,13 @@ VAGUE_HEADINGS = {
     "optimization",
     "others",
     "miscellaneous",
+    "设计细节",
+    "技术实现",
+    "其他考虑",
+    "优化",
+    "其他",
+    "其它",
+    "杂项",
 }
 
 

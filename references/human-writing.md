@@ -15,6 +15,9 @@ Remove phrases such as:
 - “we can continue to...”
 - “based on the above, we can consider...”
 - “the following will introduce...” when the heading already says what follows.
+- “基于上述设计，下一步需要...”
+- “智能体应该继续...”
+- “可以考虑进一步优化...” when no owner, condition, or target follows.
 
 Do not mention prompts, context windows, tools, tokens, chain-of-thought, generation steps, or other agent mechanics.
 
@@ -117,6 +120,14 @@ Usually delete or rewrite:
 - comprehensively empowers;
 - unified, efficient, stable and reliable;
 - can be flexibly expanded in the future.
+- 基于以上设计；
+- 需要注意的是；
+- 在实际实施过程中；
+- 根据实际情况；
+- 为后续工作提供有力支撑；
+- 为未来演进奠定坚实基础；
+- 全面赋能；
+- 后续可灵活扩展。
 
 These phrases are not banned words. They are warnings that a sentence may not contain a design fact.
 
@@ -163,6 +174,10 @@ Avoid vague headings:
 - `Other considerations`
 - `Technical implementation`
 - `Optimization`
+- `设计细节`
+- `技术实现`
+- `其他考虑`
+- `优化`
 
 ## 12. Reader tests
 

@@ -29,6 +29,9 @@ VERSION_RE = re.compile(r"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$")
 LOCAL_REF_RE = re.compile(
     r"`((?:agents|assets|examples|references|scripts)/[A-Za-z0-9_./-]+)`"
 )
+INTERFACE_FIELD_RE = re.compile(
+    r"(?m)^\s{2}(display_name|short_description|default_prompt):\s*(.*?)\s*$"
+)
 
 
 def _unquote(value: str) -> str:
@@ -70,6 +73,30 @@ def parse_frontmatter(text: str) -> dict[str, Any]:
             current_mapping = {}
             data[key] = current_mapping
     return data
+
+
+def validate_openai_yaml(text: str, skill_name: str) -> list[str]:
+    """Validate the small agents/openai.yaml interface used by this skill."""
+
+    errors: list[str] = []
+    if not re.search(r"(?m)^interface:\s*$", text):
+        return ["agents/openai.yaml is missing interface"]
+
+    fields = {name: _unquote(value) for name, value in INTERFACE_FIELD_RE.findall(text)}
+    for field in ("display_name", "short_description", "default_prompt"):
+        if not fields.get(field):
+            errors.append(f"agents/openai.yaml is missing {field}")
+
+    short_description = fields.get("short_description", "")
+    if short_description and not 25 <= len(short_description) <= 64:
+        errors.append("agents/openai.yaml short_description must be 25-64 characters")
+
+    default_prompt = fields.get("default_prompt", "")
+    if default_prompt and f"${skill_name}" not in default_prompt:
+        errors.append(
+            f"agents/openai.yaml default_prompt must explicitly mention ${skill_name}"
+        )
+    return errors
 
 
 def validate(root: Path) -> list[str]:
@@ -128,9 +155,7 @@ def validate(root: Path) -> list[str]:
     openai_yaml = root / "agents" / "openai.yaml"
     if openai_yaml.is_file():
         text = openai_yaml.read_text(encoding="utf-8")
-        for field in ("interface:", "display_name:", "short_description:", "default_prompt:"):
-            if field not in text:
-                errors.append(f"agents/openai.yaml is missing {field.rstrip(':')}")
+        errors.extend(validate_openai_yaml(text, name if isinstance(name, str) else ""))
 
     return errors
 

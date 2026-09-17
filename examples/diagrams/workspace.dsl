@@ -62,7 +62,7 @@ workspace "Private Knowledge Platform" "Example architecture model" {
             title "Knowledge Platform - Containers"
         }
 
-        deployment platform "Knowledge-Deployment" "Production" {
+        deployment platform "Production" "Knowledge-Deployment" {
             include *
             autoLayout lr
             title "Knowledge Platform - Production Deployment"

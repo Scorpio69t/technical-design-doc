@@ -66,6 +66,42 @@ The goal is not more diagrams. It is fewer diagrams with clearer jobs.
 
 Choose one location. Keep the entire directory; `references`, `assets`, and `scripts` are part of the skill.
 
+### Install with the [Skills CLI](https://github.com/vercel-labs/skills) (recommended)
+
+Install interactively and choose the target agents:
+
+```bash
+npx skills add Scorpio69t/technical-design-doc
+```
+
+Install globally for Codex without prompts:
+
+```bash
+npx skills add Scorpio69t/technical-design-doc -g -a codex --copy -y
+```
+
+Install into the current project for Codex:
+
+```bash
+npx skills add Scorpio69t/technical-design-doc -a codex --copy -y
+```
+
+Replace `codex` with another supported agent such as `claude-code` or `cursor`, or pass several agent names after `-a`. To inspect the repository before installing, run:
+
+```bash
+npx skills add Scorpio69t/technical-design-doc --list
+```
+
+If npm must use a local HTTP proxy, configure it for the current shell first. For example, in PowerShell:
+
+```powershell
+$env:HTTP_PROXY = "http://127.0.0.1:7897"
+$env:HTTPS_PROXY = "http://127.0.0.1:7897"
+npx skills add Scorpio69t/technical-design-doc -g -a codex --copy -y
+```
+
+The commands above were verified with Skills CLI 1.6.0. `--copy` creates a self-contained installation instead of an agent-directory symlink.
+
 ### Codex and compatible clients
 
 User-level installation:

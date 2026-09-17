@@ -4,7 +4,7 @@ description: Create, rewrite, or review implementation-level software design doc
 license: MIT
 metadata:
   author: Scorpio69t
-  version: "1.0.0"
+  version: "1.0.1"
   repository: "https://github.com/Scorpio69t/technical-design-doc"
 ---
 
