@@ -1,0 +1,45 @@
+' Include or copy the <style> block into sequence diagrams.
+' Uses PlantUML CSS-like style syntax rather than legacy skinparam as the primary mechanism.
+<style>
+sequenceDiagram {
+    FontName "SansSerif"
+    FontSize 13
+    LineColor #52616B
+
+    participant {
+        BackGroundColor #E8F1F5
+        LineColor #176B87
+        FontColor #16222A
+        FontStyle bold
+        RoundCorner 8
+    }
+
+    actor {
+        BackGroundColor #EEF2F6
+        LineColor #52616B
+        FontColor #16222A
+    }
+
+    arrow {
+        LineColor #52616B
+        FontColor #263238
+    }
+
+    lifeLine {
+        LineColor #94A3B8
+    }
+
+    group {
+        LineColor #94A3B8
+        FontColor #334155
+        FontStyle bold
+        BackGroundColor #F8FAFC
+    }
+
+    note {
+        BackGroundColor #FFF8E7
+        LineColor #C69214
+        FontColor #4A3A08
+    }
+}
+</style>

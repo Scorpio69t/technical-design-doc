@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Design Doc"
+  short_description: "Human-readable design docs with clear diagrams"
+  default_prompt: "Use $technical-design-doc to create or review an implementation-level design with clear rationale, failure paths, fit-for-purpose diagrams, and a final quality gate."

@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a scoped improvement to the skill, references, templates, or tooling.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What design-document task is difficult or unreliable today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest reusable change that solves the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Explain why existing guidance or tooling is insufficient.
+  - type: textarea
+    id: example
+    attributes:
+      label: Safe example
+      description: Add a fictitious example if it clarifies the request. Do not include proprietary material.

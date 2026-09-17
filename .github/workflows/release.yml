@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Verify tag matches VERSION
+        shell: bash
+        run: |
+          version="$(tr -d '\r\n' < VERSION)"
+          test "v${version}" = "${GITHUB_REF_NAME}"
+
+      - name: Validate and test
+        run: |
+          python scripts/validate_skill.py .
+          python scripts/lint_design_doc.py examples/sample-detailed-design.md --strict
+          python -m unittest discover -s tests -v
+
+      - name: Build release assets
+        run: python scripts/package_skill.py --output-dir dist
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: >-
+          gh release create "${GITHUB_REF_NAME}" dist/*
+          --verify-tag
+          --title "${GITHUB_REF_NAME}"
+          --generate-notes

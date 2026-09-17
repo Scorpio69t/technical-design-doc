@@ -1,0 +1,13 @@
+---
+config:
+  layout: elk
+  theme: base
+  themeVariables:
+    primaryColor: "#E8F1F5"
+    primaryTextColor: "#16222A"
+    primaryBorderColor: "#176B87"
+    lineColor: "#52616B"
+    secondaryColor: "#EEF2F6"
+    tertiaryColor: "#F7F9FB"
+    fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif"
+---

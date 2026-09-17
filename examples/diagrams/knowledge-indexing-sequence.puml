@@ -1,0 +1,93 @@
+@startuml
+hide footbox
+
+<style>
+sequenceDiagram {
+    FontName "SansSerif"
+    FontSize 13
+    LineColor #52616B
+    participant {
+        BackGroundColor #E8F1F5
+        LineColor #176B87
+        FontColor #16222A
+        FontStyle bold
+        RoundCorner 8
+    }
+    actor {
+        BackGroundColor #EEF2F6
+        LineColor #52616B
+        FontColor #16222A
+    }
+    arrow {
+        LineColor #52616B
+        FontColor #263238
+    }
+    lifeLine { LineColor #94A3B8 }
+    group {
+        LineColor #94A3B8
+        FontColor #334155
+        BackGroundColor #F8FAFC
+    }
+    note {
+        BackGroundColor #FFF8E7
+        LineColor #C69214
+        FontColor #4A3A08
+    }
+}
+</style>
+
+actor User
+participant "Web Console" as Web
+participant "API Gateway" as Gateway
+participant "Knowledge Service" as Knowledge
+database "Metadata DB" as DB
+queue "Index Queue" as Queue
+participant "Index Worker" as Worker
+participant "Model Provider" as Model
+participant "Vector Store" as Vector
+
+User -> Web : Upload document
+Web -> Gateway : POST /documents\nIdempotency-Key: k1
+Gateway -> Knowledge : createDocument(k1, metadata, fileRef)
+activate Knowledge
+Knowledge -> DB : lookup idempotency key
+
+alt request already completed
+    DB --> Knowledge : existing document result
+    Knowledge --> Gateway : existing result
+else new request
+    Knowledge -> DB : transaction:\ninsert document + index job + outbox
+    DB --> Knowledge : committed
+    Knowledge --> Gateway : 202 Accepted\njobId
+end
+
+deactivate Knowledge
+Gateway --> Web : API response
+
+... asynchronous relay publishes committed outbox ...
+Knowledge -> Queue : DocumentIndexRequested(jobId)
+Queue -> Worker : deliver job
+activate Worker
+Worker -> DB : claim job if status=PENDING
+DB --> Worker : claimed / current version
+
+alt job already completed or claimed elsewhere
+    Worker --> Queue : ack duplicate/no-op
+else claim succeeds
+    Worker -> Model : embed(chunks)
+    alt model timeout / transient 5xx
+        Model --> Worker : failure
+        Worker -> DB : increment retry; set RETRY_WAIT
+        Worker --> Queue : nack/requeue according to policy
+    else embedding succeeds
+        Model --> Worker : vectors
+        Worker -> Vector : upsert vectors(indexVersion)
+        Vector --> Worker : committed
+        Worker -> DB : set document indexed; job=SUCCEEDED
+        DB --> Worker : committed
+        Worker --> Queue : ack
+    end
+end
+
+deactivate Worker
+@enduml

@@ -1,0 +1,20 @@
+---
+config:
+  layout: elk
+  theme: base
+  themeVariables:
+    primaryColor: "#E8F1F5"
+    primaryTextColor: "#16222A"
+    primaryBorderColor: "#176B87"
+    lineColor: "#52616B"
+---
+stateDiagram-v2
+    [*] --> PENDING
+    PENDING --> RUNNING: worker claims job
+    RUNNING --> SUCCEEDED: vectors + metadata committed
+    RUNNING --> RETRY_WAIT: transient dependency failure
+    RETRY_WAIT --> RUNNING: backoff elapsed and retry budget remains
+    RUNNING --> FAILED: terminal failure
+    RETRY_WAIT --> FAILED: retry budget exhausted
+    FAILED --> PENDING: manual retry creates new attempt
+    SUCCEEDED --> [*]

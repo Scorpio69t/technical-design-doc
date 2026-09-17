@@ -1,0 +1,23 @@
+---
+config:
+  layout: elk
+  theme: base
+  themeVariables:
+    primaryColor: "#E8F1F5"
+    primaryTextColor: "#16222A"
+    primaryBorderColor: "#176B87"
+    lineColor: "#52616B"
+---
+flowchart LR
+    U[Upload accepted] --> P[(Persist document + job)]
+    P --> O[(Outbox record)]
+    O -. async publish .-> Q[[Index Queue]]
+    Q --> C{Worker claim succeeds?}
+    C -- No --> A[Ack duplicate / no-op]
+    C -- Yes --> E[Parse + embed]
+    E --> R{Result}
+    R -- Success --> V[(Write vectors)]
+    V --> S[Mark SUCCEEDED]
+    R -- Transient failure --> W[Set RETRY_WAIT]
+    W -. backoff .-> Q
+    R -- Terminal failure --> F[Mark FAILED]

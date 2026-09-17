@@ -1,0 +1,64 @@
+name: Bug report
+description: Report reproducible incorrect behavior in the skill or its tooling.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for reporting a reproducible problem. Remove sensitive information before submitting.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release version or commit SHA.
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options:
+        - Codex
+        - Claude Code
+        - Cursor
+        - Other Agent Skills client
+        - Python tooling only
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system and Python version if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the prompt, command, and smallest safe input that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, personal data, private URLs, and proprietary content.
+          required: true
+        - label: This is not a security vulnerability; security reports use SECURITY.md.
+          required: true

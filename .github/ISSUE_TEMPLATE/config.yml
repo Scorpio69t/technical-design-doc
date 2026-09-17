@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Usage questions and ideas
+    url: https://github.com/Scorpio69t/technical-design-doc/discussions
+    about: Ask for installation help or discuss an idea before opening an issue.
+  - name: Security report
+    url: https://github.com/Scorpio69t/technical-design-doc/security/advisories/new
+    about: Report vulnerabilities privately; do not open a public issue.
