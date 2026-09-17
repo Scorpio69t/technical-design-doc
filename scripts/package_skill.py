@@ -64,7 +64,8 @@ def build_package(root: Path, output_dir: Path) -> tuple[Path, Path]:
 
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     checksum = archive.with_suffix(f"{archive.suffix}.sha256")
-    checksum.write_text(f"{digest}  {archive.name}\n", encoding="ascii", newline="\n")
+    with checksum.open("w", encoding="ascii", newline="\n") as stream:
+        stream.write(f"{digest}  {archive.name}\n")
     return archive, checksum
 
 
